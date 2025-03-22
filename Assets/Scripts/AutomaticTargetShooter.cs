@@ -5,28 +5,31 @@ public class AutomaticTargetShooter : MonoBehaviour
 {
     [Header("Bullet Settings")]
     [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private float bulletSpeed = 300f;
+    [SerializeField] private float bulletSpeed = 10f;
     [SerializeField] private float fireRate = 0.5f;
     
     [Header("Target Settings")]
-    [SerializeField] private RectTransform blueSquare;
-    [SerializeField] private RectTransform redSquare;
+    [SerializeField] private Transform blueSquare;
+    [SerializeField] private Transform redSquare;
     [SerializeField] private Transform spawnPoint;
     
-    private RectTransform currentTarget;
-    private RectTransform rectTransform;
+    private Transform currentTarget;
+    private Transform shooterTransform;
 
     private void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
+        shooterTransform = transform;
         
         if (spawnPoint == null)
         {
             GameObject spawnObj = new GameObject("BulletSpawnPoint");
             spawnPoint = spawnObj.transform;
             spawnPoint.SetParent(transform);
-            spawnPoint.localPosition = new Vector3(0, 50, 0); // Offset upward
+            spawnPoint.localPosition = new Vector3(0, 1, 0);
         }
+        
+        // Initialize PowerUpFunctions with the bullet prefab and spawn point
+        PowerUpFunctions.Initialize(bulletPrefab, spawnPoint);
         
         SetTarget("blue");
         StartShooting();
@@ -47,7 +50,6 @@ public class AutomaticTargetShooter : MonoBehaviour
                 return;
         }
         
-        // Immediately rotate spawn point to face target
         if (currentTarget != null)
         {
             RotateSpawnPointTowardsTarget();
@@ -66,15 +68,12 @@ public class AutomaticTargetShooter : MonoBehaviour
     {
         if (spawnPoint == null || currentTarget == null) return;
 
-        // Calculate direction from spawn point to target
         Vector2 spawnPos = spawnPoint.position;
         Vector2 targetPos = currentTarget.position;
         Vector2 direction = (targetPos - spawnPos).normalized;
 
-        // Calculate angle to target (-90 because UI elements face right by default)
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90;
         
-        // Apply rotation to the spawn point only
         spawnPoint.rotation = Quaternion.Euler(0, 0, angle);
     }
 
@@ -100,30 +99,38 @@ public class AutomaticTargetShooter : MonoBehaviour
             return;
         }
 
-        // Instantiate bullet as child of the canvas
-        GameObject bullet = Instantiate(bulletPrefab, transform.parent);
-        RectTransform bulletRect = bullet.GetComponent<RectTransform>();
+        GameObject bullet = Instantiate(bulletPrefab, spawnPoint.position, spawnPoint.rotation);
         
-        // Set initial position
-        bulletRect.position = spawnPoint.position;
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+        if (rb == null)
+        {
+            rb = bullet.AddComponent<Rigidbody2D>();
+            rb.gravityScale = 0f;
+        }
         
-        // Initialize bullet behavior
         BulletBehavior bulletBehavior = bullet.GetComponent<BulletBehavior>();
         if (bulletBehavior == null)
         {
             bulletBehavior = bullet.AddComponent<BulletBehavior>();
         }
         
-        // Use spawn point's up direction for bullet velocity
         Vector2 shootDirection = spawnPoint.up;
         
-        // Initialize bullet with velocity in the spawn point's up direction
-        bulletBehavior.Initialize(shootDirection * bulletSpeed, false, 10f);
-        
-        // Match bullet rotation to spawn point
-        bulletRect.rotation = spawnPoint.rotation;
+        bulletBehavior.Initialize(shootDirection * bulletSpeed, false, 2f);
 
-        // Destroy after delay
         Destroy(bullet, 5f);
     }
-} 
+
+    // Example voice command processing
+    public void ProcessPowerUpCommand(string command)
+    {
+        if (command.Contains("Double") || command.Contains("target all"))
+        {
+            PowerUpFunctions.DoubleTrouble(redSquare, blueSquare);
+        }
+        else if (command.Contains("Power") || command.Contains("powerful shot"))
+        {
+            PowerUpFunctions.PowerShot();
+        }
+    }
+}
