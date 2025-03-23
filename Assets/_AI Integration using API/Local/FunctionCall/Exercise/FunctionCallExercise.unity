@@ -119,54 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &107963744
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 107963746}
-  - component: {fileID: 107963747}
-  m_Layer: 0
-  m_Name: MoveObjectsManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &107963746
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 107963744}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &107963747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 107963744}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b92a3bf5e3ab6924a8536a8b3a0eeeda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  llmCharacter: {fileID: 498662973}
-  playerText: {fileID: 1966107897}
-  blueSquare: {fileID: 0}
-  redSquare: {fileID: 0}
 --- !u!1 &158550913
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,7 +585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff48381a30c96646a0bc94b08564547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 500
   currentHealth: 0
 --- !u!1 &498662970
 GameObject:
@@ -1368,7 +1320,6 @@ GameObject:
   - component: {fileID: 915215927}
   - component: {fileID: 915215926}
   - component: {fileID: 915215928}
-  - component: {fileID: 915215929}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -1462,21 +1413,10 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4516528997800027169, guid: ed942f2c47752b84483020f3eed55634, type: 3}
   bulletSpeed: 20
   fireRate: 2
-  blueSquare: {fileID: 1832597774}
-  redSquare: {fileID: 445975558}
+  chicken: {fileID: 1832597774}
+  frog: {fileID: 445975558}
   spawnPoint: {fileID: 499980803}
---- !u!114 &915215929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 915215925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c478cf27c7d130c45bcb6bbd99137559, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  llmCharacter: {fileID: 498662973}
 --- !u!1 &952703629
 GameObject:
   m_ObjectHideFlags: 0
@@ -2386,7 +2326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff48381a30c96646a0bc94b08564547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 500
   currentHealth: 0
 --- !u!1 &1966107895
 GameObject:
@@ -2612,7 +2552,6 @@ SceneRoots:
   - {fileID: 2015159267}
   - {fileID: 1047848255}
   - {fileID: 498662972}
-  - {fileID: 107963746}
   - {fileID: 351946980}
   - {fileID: 735088405}
   - {fileID: 915215927}
